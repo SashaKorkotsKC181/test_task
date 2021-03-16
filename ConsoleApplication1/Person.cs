@@ -10,14 +10,17 @@ namespace ConsoleApplication1
     {
         string[] mounths = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
         string employeeName;
-        DateTime date;
-        double hours;
+        //DateTime date;
+        //double hours;
+        Dictionary<DateTime, double> work = new Dictionary<DateTime, double>();
         public Person(string employeeName_, string date_, double hours_)
         {
             employeeName = employeeName_;
-            hours = hours_;
-            date = ConvertDate(date_);
-            
+            AddToPerson(date_, hours_);
+        }
+        public void AddToPerson(string date_, double hours_)
+        {
+            work.Add(ConvertDate(date_), hours_);
         }
         private DateTime ConvertDate(string date_)
         {
@@ -29,13 +32,46 @@ namespace ConsoleApplication1
             }
             return new DateTime();
         }
+        public DateTime LastDate 
+        {
+            get
+            {
+                return work.Last().Key;
+            }
+        }
+        public string EmployeeName
+        {
+            get
+            {
+                return employeeName;
+            }
+        }
+        public double this[DateTime workHours]
+        {
+            get
+            {
+                try
+                {
+                    return work[workHours];
+                }
+                catch(Exception)
+                {
+                    return 0;
+                }
+            }
+        }
         public int CompareTo(Person p)
         {
-            return -this.date.CompareTo(p.date);
+            return this.employeeName.CompareTo(p.employeeName);
         }
         public override string ToString()
         {
-            return employeeName + " " + date.ToShortDateString() + " " + hours.ToString();
+            /*string ans;
+            foreach (DateTime item in work)
+            {
+                ans += ans + work[item];
+            }*/
+            return employeeName;
         }
     }
 }
